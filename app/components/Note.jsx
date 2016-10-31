@@ -1,6 +1,6 @@
 var React = require('react');
 
-var Card = React.createClass({
+var Note = React.createClass({
   getInitialState: function() {
     return {
       showAnswer: false
@@ -15,12 +15,12 @@ var Card = React.createClass({
   render: function() {
     return (
       <div>
-        <h2>Question: {this.props.cardData.question}</h2>
-      {this.state.showAnswer ? <h3>Answer: {this.props.cardData.answer}</h3> : null}
+        <h2>Question: {this.props.noteData.question}</h2>
+      {this.state.showAnswer ? <h3>Answer: {this.props.noteData.answer}</h3> : null}
         <button onClick={this.onClick}>Show/Hide answer</button>
       </div>
     );
   }
 });
 
-module.exports = Card;
+module.exports = Note;

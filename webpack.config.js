@@ -7,11 +7,11 @@ module.exports = {
   resolve: {
     root: __dirname,
     alias: {
-      Card: 'app/components/Card.jsx',
-      CardViewer: 'app/components/CardViewer.jsx',
       Main: 'app/components/Main.jsx',
       Nav: 'app/components/Nav.jsx',
-      Home: 'app/components/Home.jsx',
+      DeckList: 'app/components/DeckList.jsx',
+      NoteList: 'app/components/NoteList.jsx',
+      Note: 'app/components/Note.jsx',
       configureStore: 'store/configureStore.jsx',
       actions: 'actions/actions.jsx',
       reducers: 'reducers/reducers.jsx'

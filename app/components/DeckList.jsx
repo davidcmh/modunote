@@ -15,7 +15,7 @@ var decks = [
   }
 ];
 
-var Home = React.createClass({
+var DeckList = React.createClass({
   getDefaultProps: function() {
     return {
       decks: decks
@@ -36,4 +36,4 @@ var Home = React.createClass({
   }
 });
 
-module.exports = Home;
+module.exports = DeckList;

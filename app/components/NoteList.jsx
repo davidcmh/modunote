@@ -1,7 +1,7 @@
 var React = require('react');
-var Card = require('Card');
+var Note = require('Note');
 
-var cardList = [
+var notes = [
   {
     id: 1,
     question: 'Why is the sky blue?',
@@ -17,27 +17,27 @@ var cardList = [
     question: 'When was United Kingdom founded?',
     answer: "1 May 1707"
   }
-]
+];
 
-var CardViewer = React.createClass({
+var NoteList = React.createClass({
   getDefaultProps: function() {
     return {
-      cards: cardList
+      notes: notes
     };
   },
   render: function() {
-    var cardNodes = this.props.cards.map(function(c) {
+    var noteNodes = this.props.notes.map(function(n) {
       return (
-        <Card cardData={c} key={c.id}/>
+        <Note noteData={n} key={n.id}/>
       );
     });
 
     return (
       <div>
-        {cardNodes}
+        {noteNodes}
       </div>
     )
   }
 });
 
-module.exports = CardViewer;
+module.exports = NoteList;
