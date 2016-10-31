@@ -13,7 +13,7 @@ var decks = [
     id: 3,
     label: 'JKU'
   }
-]
+];
 
 var Home = React.createClass({
   getDefaultProps: function() {

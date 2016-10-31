@@ -11,7 +11,10 @@ module.exports = {
       CardViewer: 'app/components/CardViewer.jsx',
       Main: 'app/components/Main.jsx',
       Nav: 'app/components/Nav.jsx',
-      Home: 'app/components/Home.jsx'
+      Home: 'app/components/Home.jsx',
+      configureStore: 'store/configureStore.jsx',
+      actions: 'actions/actions.jsx',
+      reducers: 'reducers/reducers.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
