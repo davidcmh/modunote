@@ -1,3 +1,5 @@
+export var axios = require('axios');
+
 export var requestDecks = () => {
     return {
         type: 'REQUEST_DECKS'

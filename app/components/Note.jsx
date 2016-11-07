@@ -15,8 +15,8 @@ var Note = React.createClass({
   render: function() {
     return (
       <div>
-        <h2>Question: {this.props.noteData.question}</h2>
-      {this.state.showAnswer ? <h3>Answer: {this.props.noteData.answer}</h3> : null}
+        <h2>Question: {this.props.noteData.title}</h2>
+      {this.state.showAnswer ? <h3>Answer: {this.props.noteData.content}</h3> : null}
         <button onClick={this.onClick}>Show/Hide answer</button>
       </div>
     );
