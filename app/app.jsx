@@ -7,16 +7,24 @@ var NoteList = require('NoteList');
 var actions = require('actions');
 var store = require('configureStore').configure();
 var {Provider} = require('react-redux');
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+
+// Needed for onTouchTap of material-ui
+injectTapEventPlugin();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={hashHistory}>
-            <Route path="/" component={Main}>
-                <Route path="notes" component={NoteList}/>
-                <IndexRoute component={DeckList}/>
-            </Route>
-        </Router>
-    </Provider>,
+    <MuiThemeProvider>
+        <Provider store={store}>
+            <Router history={hashHistory}>
+                <Route path="/" component={Main}>
+                    <Route path="notes" component={NoteList}/>
+                    <IndexRoute component={DeckList}/>
+                </Route>
+            </Router>
+        </Provider>
+    </MuiThemeProvider>,
     document.getElementById('app')
 );
 

@@ -1,26 +1,25 @@
 var React = require('react');
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 var Note = React.createClass({
-  getInitialState: function() {
-    return {
-      showAnswer: false
-    };
-  },
-  getDefaultProps: function() {
-    return {}
-  },
-  onClick: function() {
-    this.setState({showAnswer:!this.state.showAnswer});
-  },
   render: function() {
     return (
       <div>
-        <h2>Question: {this.props.noteData.title}</h2>
-      {this.state.showAnswer ? <h3>Answer: {this.props.noteData.content}</h3> : null}
-        <button onClick={this.onClick}>Show/Hide answer</button>
+        <Card>
+          <CardHeader
+              title={this.props.noteData.title}
+              subtitle="#tags"
+              actAsExpander={true}
+              showExpandableButton={true}
+          />
+          <CardText expandable={true}>
+            <pre>{this.props.noteData.content}</pre>
+          </CardText>
+        </Card>
       </div>
     );
   }
 });
+
 
 module.exports = Note;
