@@ -24,17 +24,20 @@ export var notesReducer = (state = {
         {
             id: 1,
             title: 'Why is the sky blue?',
-            content: "Blue light is scattered in all directions by the tiny molecules of air in Earth's atmosphere. Blue is scattered more than other colors because it travels as shorter, smaller waves. This is why we see a blue sky most of the time."
+            content: "Blue light is scattered in all directions by the tiny molecules of air in Earth's atmosphere. Blue is scattered more than other colors because it travels as shorter, smaller waves. This is why we see a blue sky most of the time.",
+            tags: "science"
         },
         {
             id: 2,
             title: 'What is the capital of Australia?',
-            content: "Canberra"
+            content: "Canberra",
+            tags: "generalKnowledge"
         },
         {
             id: 3,
             title: 'When was United Kingdom founded?',
-            content: "1 May 1707"
+            content: "1 May 1707",
+            tags: "history"
         }]
 }, action) => {
     switch (action.type) {

@@ -8,7 +8,7 @@ var Note = React.createClass({
         <Card>
           <CardHeader
               title={this.props.noteData.title}
-              subtitle="#tags"
+              subtitle= {"#" + this.props.noteData.tags}
               actAsExpander={true}
               showExpandableButton={true}
           />
