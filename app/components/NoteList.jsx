@@ -15,8 +15,8 @@ var NoteList = React.createClass({
 
         return (
             <div>
-                <button onClick={() => dispatch(actions.fetchNotes())}>FETCH NOTES</button>
                 {noteNodes}
+                <button onClick={() => dispatch(actions.fetchNotes())}>FETCH NOTES</button>
             </div>
         )
     }

@@ -1,9 +1,11 @@
 var React = require('react');
+import {Card, CardHeader} from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
 
 var decks = [
   {
     id: 1,
-    label: 'All',
+    label: 'All'
   },
   {
     id: 2,
@@ -24,12 +26,17 @@ var DeckList = React.createClass({
   render: function() {
     var deckNodes = this.props.decks.map(function(d) {
       return (
-        <h3>{d.label}</h3>
+          <Card>
+            <CardHeader title={d.label}/>
+          </Card>
       );
     });
 
     return (
       <div>
+        <TextField
+            hintText="Search by notebook or tags"
+        /><br />
        {deckNodes}
       </div>
     )
