@@ -1,5 +1,6 @@
 var React = require('react');
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+var Markdown = require('react-markdown');
 
 var Note = React.createClass({
   render: function() {
@@ -13,7 +14,7 @@ var Note = React.createClass({
               showExpandableButton={true}
           />
           <CardText expandable={true}>
-            <pre>{this.props.noteData.content}</pre>
+              <Markdown source={this.props.noteData.content}/>
           </CardText>
         </Card>
       </div>

@@ -24,7 +24,7 @@ export var notesReducer = (state = {
         {
             id: 1,
             title: 'Why is the sky blue?',
-            content: "Blue light is scattered in all directions by the tiny molecules of air in Earth's atmosphere. Blue is scattered more than other colors because it travels as shorter, smaller waves. This is why we see a blue sky most of the time.",
+            content: "Blue light is scattered in all directions by the tiny molecules of air in Earth's atmosphere. **Blue is scattered more than other colors** because it travels as shorter, smaller waves. This is why we see a blue sky most of the time.",
             tags: "science"
         },
         {
