@@ -40,6 +40,8 @@ export var fetchDecks = () => {
                     return result;
                 }, {});
 
+                decks[0] = {id:0, name:'All'}; // Always add default 'All' deck
+
                 dispatch(receiveDecks(decks));
             });
     };

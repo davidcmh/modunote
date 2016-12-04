@@ -1,34 +1,17 @@
 var React = require('react');
-import {Card, CardHeader} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-
-var decks = [
-  {
-    id: 1,
-    label: 'All'
-  },
-  {
-    id: 2,
-    label: 'Machine learning'
-  },
-  {
-    id: 3,
-    label: 'JKU'
-  }
-];
+var {connect} = require('react-redux');
+var _ = require('lodash');
+var {Link} = require('react-router');
+import {List, ListItem} from 'material-ui/List';
+var actions = require('actions');
 
 var DeckList = React.createClass({
-  getDefaultProps: function() {
-    return {
-      decks: decks
-    };
-  },
   render: function() {
-    var deckNodes = this.props.decks.map(function(d) {
+    var {dispatch} = this.props;
+    var deckNodes = _.map(this.props.decks.items, function(d) {
       return (
-          <Card>
-            <CardHeader title={d.label}/>
-          </Card>
+          <ListItem primaryText={d.name} key={d.id} onClick={() => dispatch(actions.fetchNotes())} containerElement={<Link to="/notes"/>}/>
       );
     });
 
@@ -37,10 +20,19 @@ var DeckList = React.createClass({
         <TextField
             hintText="Search by notebook or tags"
         /><br />
-       {deckNodes}
+        <List>
+          {deckNodes}
+        </List>
       </div>
     )
   }
 });
 
-module.exports = DeckList;
+
+module.exports = connect(
+    (state) => {
+      return {
+        decks: state.decks
+      };
+    }
+)(DeckList);

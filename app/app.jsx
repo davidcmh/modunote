@@ -33,5 +33,7 @@ store.subscribe(() => {
     console.log('Current state:', store.getState())
 });
 
+store.dispatch(actions.fetchDecks());
+
 //store.dispatch(actions.fetchDecks());
 //store.dispatch(actions.fetchNotes({tags: ['git']}));
