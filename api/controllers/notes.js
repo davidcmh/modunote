@@ -26,12 +26,21 @@ exports.getNotes = function (req, res, next) {
     //var query = selectSql + joinSql + filterSql + ";";
 
     // quick hack for current need, revisit SQL above in the future
+    // doesn't handle tags for now
 
-    var query = "SELECT notes.*, STRING_AGG(tag_library.name, ',') tags " +
+    var mainSql = "SELECT notes.*, STRING_AGG(tag_library.name, ',') tags " +
             "FROM notes " +
-            "JOIN tags ON notes.id = tags.note_id " +
-            "JOIN tag_library ON tags.tag_id = tag_library.id " +
-            "GROUP BY notes.id";
+            "LEFT JOIN tags ON notes.id = tags.note_id " +
+            "LEFT JOIN tag_library ON tags.tag_id = tag_library.id ";
+
+    var filterSql = "";
+    if (filters && filters.deckId) {
+        filterSql += "WHERE notes.deck_id = " + filters.deckId + " "
+    }
+
+    var groupbySql = "GROUP BY notes.id";
+
+    var query = mainSql + filterSql + groupbySql;
 
     var result = {};
     return Q.fcall(function () {

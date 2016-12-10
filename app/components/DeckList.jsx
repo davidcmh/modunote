@@ -11,7 +11,7 @@ var DeckList = React.createClass({
     var {dispatch} = this.props;
     var deckNodes = _.map(this.props.decks.items, function(d) {
       return (
-          <ListItem primaryText={d.name} key={d.id} onClick={() => dispatch(actions.fetchNotes())} containerElement={<Link to="/notes"/>}/>
+          <ListItem primaryText={d.name} key={d.id} onClick={() => dispatch(actions.fetchNotes({"deckId":d.id}))} containerElement={<Link to="/notes"/>}/>
       );
     });
 
