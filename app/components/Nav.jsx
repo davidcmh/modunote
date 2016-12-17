@@ -8,6 +8,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 var {connect} = require('react-redux');
 var actions = require('actions');
+import AutoComplete from 'material-ui/AutoComplete';
+var _ = require('lodash');
+import DatePicker from 'material-ui/DatePicker';
 
 class Nav extends React.Component {
     state = {
@@ -25,7 +28,9 @@ class Nav extends React.Component {
     handleSubmit = () => {
         this.setState({showSearchModal: false});
         var {dispatch} = this.props;
-        dispatch(actions.fetchNotes({"deckId":this.state.deckId}));
+        dispatch(actions.fetchNotes({
+            "deckId": _.find(this.props.decks.items, {name: this.state.topic}).id
+        }));
     };
 
     render() {
@@ -51,11 +56,17 @@ class Nav extends React.Component {
                     modal={true}
                     open={this.state.showSearchModal}
                 >
-                    <br /> Context <TextField id='context' onChange={(event) => this.state.deckId = parseInt(event.target.value)} />
+                    Topic &nbsp;
+                    <AutoComplete
+                        hintText=""
+                        dataSource={_.map(this.props.decks.items, 'name')}
+                        filter={AutoComplete.caseInsensitiveFilter}
+                        onUpdateInput={(input) => this.state.topic = input}
+                    />
+                    <br /> Context <TextField id='context' onChange={(event) => this.state.context = parseInt(event.target.context)} />
                     <br /> Tags <TextField id='tags' onChange={(event) => this.state.tags = event.target.value} />
                     <br /> Keywords <TextField id='keywords' />
-                    <br /> Date <TextField id='date' />
-                    <br /> Date range <TextField id='dateRange' />
+                    <br /> Date <DatePicker style={{display:'inline-block'}} />
                 </Dialog>
 
                 <Tabs>
@@ -67,4 +78,10 @@ class Nav extends React.Component {
     }
 }
 
-module.exports = connect()(Nav);
+module.exports = connect(
+    (state) => {
+        return {
+            decks: state.decks
+        };
+    }
+)(Nav);
