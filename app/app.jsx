@@ -19,8 +19,7 @@ ReactDOM.render(
         <Provider store={store}>
             <Router history={hashHistory}>
                 <Route path="/" component={Main}>
-                    <Route path="notes" component={NoteList}/>
-                    <IndexRoute component={DeckList}/>
+                    <IndexRoute component={NoteList}/>
                 </Route>
             </Router>
         </Provider>

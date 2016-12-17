@@ -1,6 +1,4 @@
 var React = require('react');
-var {Link} = require('react-router');
-import {Tabs, Tab} from 'material-ui/Tabs';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import TextField from 'material-ui/TextField';
@@ -68,11 +66,6 @@ class Nav extends React.Component {
                     <br /> Keywords <TextField id='keywords' />
                     <br /> Date <DatePicker style={{display:'inline-block'}} />
                 </Dialog>
-
-                <Tabs>
-                    <Tab label="Home" containerElement={<Link to="/"/>}/>
-                    <Tab label="Notes" containerElement={<Link to="/notes"/>}/>
-                </Tabs>
             </div>
         );
     }
