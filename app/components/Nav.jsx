@@ -36,12 +36,16 @@ class Nav extends React.Component {
         this.setState({showSearchModal: false});
     };
 
+    // TODO: handle invalid topic input
     handleSubmit = () => {
         this.setState({showSearchModal: false});
         var {dispatch} = this.props;
-        dispatch(actions.fetchNotes({
-            "deckId": _.find(this.props.decks.items, {name: this.state.topic}).id
-        }));
+        const filters = {};
+        if(this.state.topic) filters.deckId = _.find(this.props.decks.items, {name: this.state.topic}).id;
+        if(this.state.tags.length) filters.tags = _.map(this.state.tags, 'label');
+        dispatch(actions.fetchNotes(filters));
+        this.setState({topic:''});
+        this.setState({tags:[]});
     };
 
     handleDeleteTag = (key) => {
