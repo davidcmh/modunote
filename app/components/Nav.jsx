@@ -65,7 +65,7 @@ class Nav extends React.Component {
         this.setState({activeTagValue: ''});
     };
 
-    renderTag(tag) {
+    renderTag = (tag) => {
         return (
             <Chip
                 key={tag.key}
@@ -75,7 +75,7 @@ class Nav extends React.Component {
                 {tag.label}
             </Chip>
         );
-    }
+    };
 
     render() {
         const actions = [
