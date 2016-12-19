@@ -1,11 +1,12 @@
 var redux = require('redux');
 var _ = require('lodash');
 import thunkMiddleware from 'redux-thunk'
-var {decksReducer, notesReducer} = require('reducers');
+var {contextsReducer, topicsReducer, notesReducer} = require('reducers');
 
 export var configure = () => {
     var reducer = redux.combineReducers({
-        decks: decksReducer,
+        contexts: contextsReducer,
+        topics: topicsReducer,
         notes: notesReducer
     });
 

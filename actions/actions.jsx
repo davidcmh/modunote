@@ -1,15 +1,28 @@
 export var axios = require('axios');
 
-export var requestDecks = () => {
+export var requestContexts = () => {
     return {
-        type: 'REQUEST_DECKS'
+        type: 'REQUEST_CONTEXTS'
     }
 };
 
-export var receiveDecks = (decks) => {
+export var receiveContexts = (contexts) => {
     return {
-        type: 'RECEIVE_DECKS',
-        decks
+        type: 'RECEIVE_CONTEXTS',
+        contexts
+    }
+};
+
+export var requestTopics = () => {
+    return {
+        type: 'REQUEST_TOPICS'
+    }
+};
+
+export var receiveTopics = (topics) => {
+    return {
+        type: 'RECEIVE_TOPICS',
+        topics
     }
 };
 
@@ -27,22 +40,38 @@ export var receiveNotes = (notes) => {
     }
 };
 
-export var fetchDecks = () => {
+export var fetchContexts = () => {
     return function (dispatch) {
-        dispatch(requestDecks());
-        return axios.get('/decks')
+        dispatch(requestContexts());
+        return axios.get('/contexts')
             .then(function (response) {
-                console.log('Response from axios from fetchDecks');
+                console.log('Response from axios from fetchContexts');
                 console.log(response);
 
-                var decks = _.reduce(response.data.decks, function(result, deck) {
-                    result[deck.id] = deck;
+                var contexts = _.reduce(response.data.contexts, function(result, context) {
+                    result[context.id] = context;
                     return result;
                 }, {});
 
-                decks[0] = {id:0, name:'All'}; // Always add default 'All' deck
+                dispatch(receiveContexts(contexts));
+            });
+    };
+};
 
-                dispatch(receiveDecks(decks));
+export var fetchTopics = () => {
+    return function (dispatch) {
+        dispatch(requestTopics());
+        return axios.get('/topics')
+            .then(function (response) {
+                console.log('Response from axios from fetchTopics');
+                console.log(response);
+
+                var topics = _.reduce(response.data.topics, function(result, topic) {
+                    result[topic.id] = topic;
+                    return result;
+                }, {});
+
+                dispatch(receiveTopics(topics));
             });
     };
 };

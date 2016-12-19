@@ -34,7 +34,7 @@ class Note extends React.Component {
                         actAsExpander={true}
                         showExpandableButton={true}
                     >
-                        {this.props.noteData.tags.length ? <div style={this.styles.wrapper}> {_.map(this.props.noteData.tags.split(','), this.renderTag)} </div> : null}
+                        {this.props.noteData.tags && this.props.noteData.tags.length ? <div style={this.styles.wrapper}> {_.map(this.props.noteData.tags.split(','), this.renderTag)} </div> : null}
                     </CardHeader>
                     <CardText expandable={true}>
                         <Markdown source={this.props.noteData.content}/>

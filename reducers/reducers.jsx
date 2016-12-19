@@ -1,16 +1,36 @@
-export var decksReducer = (state = {
+export var contextsReducer = (state = {
     isFetching: false,
     items: []
 }, action) => {
     switch (action.type) {
-        case 'REQUEST_DECKS':
+        case 'REQUEST_CONTEXTS':
             return _.assign({}, state, {
                 isFetching: true
             });
-        case 'RECEIVE_DECKS':
+        case 'RECEIVE_CONTEXTS':
             return _.assign({}, state, {
                 isFetching: false,
-                items: action.decks
+                items: action.contexts
+            });
+        default:
+            return state;
+    }
+};
+
+
+export var topicsReducer = (state = {
+    isFetching: false,
+    items: []
+}, action) => {
+    switch (action.type) {
+        case 'REQUEST_TOPICS':
+            return _.assign({}, state, {
+                isFetching: true
+            });
+        case 'RECEIVE_TOPICS':
+            return _.assign({}, state, {
+                isFetching: false,
+                items: action.topics
             });
         default:
             return state;

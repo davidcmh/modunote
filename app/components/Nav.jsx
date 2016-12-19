@@ -14,6 +14,8 @@ import Chip from 'material-ui/Chip';
 class Nav extends React.Component {
     state = {
         showSearchModal: false,
+        topics: [],
+        activeTopicValue: '',
         tags: [],
         activeTagValue: ''
     };
@@ -36,16 +38,23 @@ class Nav extends React.Component {
         this.setState({showSearchModal: false});
     };
 
-    // TODO: handle invalid topic input
+    // TODO: handle invalid topics input
     handleSubmit = () => {
         this.setState({showSearchModal: false});
         var {dispatch} = this.props;
         const filters = {};
-        if(this.state.topic) filters.deckId = _.find(this.props.decks.items, {name: this.state.topic}).id;
+        if(this.state.topics.length) filters.topics = _.map(this.state.topics, 'label');
         if(this.state.tags.length) filters.tags = _.map(this.state.tags, 'label');
         dispatch(actions.fetchNotes(filters));
-        this.setState({topic:''});
+        this.setState({topics:[]});
         this.setState({tags:[]});
+    };
+
+    handleDeleteTopic = (key) => {
+        const topics = this.state.topics;
+        const indexToDelete = _.indexOf(_.map(this.state.topics, 'id'), key);
+        topics.splice(indexToDelete, 1);
+        this.setState({topics: topics});
     };
 
     handleDeleteTag = (key) => {
@@ -53,6 +62,16 @@ class Nav extends React.Component {
         const indexToDelete = _.indexOf(_.map(this.state.tags, 'id'), key);
         tags.splice(indexToDelete, 1);
         this.setState({tags: tags});
+    };
+
+    handleAddTopic = () => {
+        const topics = this.state.topics;
+        topics.push({
+            key: topics.length,
+            label: this.state.activeTopicValue
+        });
+        this.setState({topics: topics});
+        this.setState({activeTopicValue: ''});
     };
 
     handleAddTag = () => {
@@ -63,6 +82,18 @@ class Nav extends React.Component {
         });
         this.setState({tags: tags});
         this.setState({activeTagValue: ''});
+    };
+
+    renderTopic = (topic) => {
+        return (
+            <Chip
+                key={topic.key}
+                onRequestDelete={() => this.handleDeleteTopic(topic.key)}
+                style={this.styles.chip}
+            >
+                {topic.label}
+            </Chip>
+        );
     };
 
     renderTag = (tag) => {
@@ -100,15 +131,22 @@ class Nav extends React.Component {
                     modal={true}
                     open={this.state.showSearchModal}
                 >
-                    Topic &nbsp;
+                    Topics &nbsp;
                     <AutoComplete
-                        id="Topic"
-                        hintText=""
-                        dataSource={_.map(this.props.decks.items, 'name')}
+                        id="Topics"
+                        searchText={this.state.activeTopicValue}
+                        dataSource={_.map(this.props.topics.items, 'name')}
                         filter={AutoComplete.caseInsensitiveFilter}
                         openOnFocus={true}
-                        onUpdateInput={(input) => this.state.topic = input}
+                        onUpdateInput={(input) => this.setState({activeTopicValue: input})}
                     />
+                    <FlatButton
+                        label="Add"
+                        secondary={true}
+                        onTouchTap={this.handleAddTopic}
+                        disabled={this.state.activeTopicValue == ''}
+                    />
+                    {this.state.topics.length > 0 ? <div style={this.styles.wrapper}> {this.state.topics.map(this.renderTopic, this)} </div> : null}
                     <br />
 
                     Tags &nbsp;
@@ -152,7 +190,8 @@ class Nav extends React.Component {
 module.exports = connect(
     (state) => {
         return {
-            decks: state.decks
+            contexts: state.contexts,
+            topics: state.topics
         };
     }
 )(Nav);

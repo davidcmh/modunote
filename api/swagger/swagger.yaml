@@ -18,11 +18,11 @@ consumes:
 produces:
   - application/json
 paths:
-  /decks:
-    x-swagger-router-controller: decks
+  /contexts:
+    x-swagger-router-controller: contexts
     get:
-      description: return decks available
-      operationId: getDecks
+      description: return contexts available
+      operationId: getContexts
       responses:
         "200":
           description: Success
@@ -34,6 +34,22 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /topics:
+    x-swagger-router-controller: topics
+    get:
+      description: return topics available
+      operationId: getTopics
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
   /notes:
     x-swagger-router-controller: notes
     post:
@@ -42,7 +58,7 @@ paths:
       parameters:
         - name: filters
           in: body
-          description: filter by deck id or tag; return all notes if not specified
+          description: filter by contexts, topics and tags; return all notes if empty object is passed in
           required: false
           schema:
             type: object
