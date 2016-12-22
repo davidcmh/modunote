@@ -17,7 +17,9 @@ class Nav extends React.Component {
         topics: [],
         activeTopicValue: '',
         tags: [],
-        activeTagValue: ''
+        activeTagValue: '',
+        contexts: [],
+        activeContextValue: ''
     };
 
     styles = {
@@ -43,11 +45,21 @@ class Nav extends React.Component {
         this.setState({showSearchModal: false});
         var {dispatch} = this.props;
         const filters = {};
+        if(this.state.contexts.length) filters.contexts = _.map(this.state.contexts, 'label');
         if(this.state.topics.length) filters.topics = _.map(this.state.topics, 'label');
         if(this.state.tags.length) filters.tags = _.map(this.state.tags, 'label');
         dispatch(actions.fetchNotes(filters));
+        this.setState({contexts:[]});
         this.setState({topics:[]});
         this.setState({tags:[]});
+        console.log('Filters from handleSubmit:', filters);
+    };
+
+    handleDeleteContext = (key) => {
+        const contexts = this.state.contexts;
+        const indexToDelete = _.indexOf(_.map(this.state.contexts, 'id'), key);
+        contexts.splice(indexToDelete, 1);
+        this.setState({contexts: contexts});
     };
 
     handleDeleteTopic = (key) => {
@@ -62,6 +74,16 @@ class Nav extends React.Component {
         const indexToDelete = _.indexOf(_.map(this.state.tags, 'id'), key);
         tags.splice(indexToDelete, 1);
         this.setState({tags: tags});
+    };
+
+    handleAddContext = () => {
+        const contexts = this.state.contexts;
+        contexts.push({
+            key: contexts.length,
+            label: this.state.activeContextValue
+        });
+        this.setState({contexts: contexts});
+        this.setState({activeContextValue: ''});
     };
 
     handleAddTopic = () => {
@@ -82,6 +104,18 @@ class Nav extends React.Component {
         });
         this.setState({tags: tags});
         this.setState({activeTagValue: ''});
+    };
+
+    renderContext = (context) => {
+        return (
+            <Chip
+                key={context.key}
+                onRequestDelete={() => this.handleDeleteContext(context.key)}
+                style={this.styles.chip}
+            >
+                {context.label}
+            </Chip>
+        );
     };
 
     renderTopic = (topic) => {
@@ -164,10 +198,22 @@ class Nav extends React.Component {
                     {this.state.tags.length > 0 ? <div style={this.styles.wrapper}> {this.state.tags.map(this.renderTag, this)} </div> : null}
                     <br />
 
-                    Context
-                    <TextField
-                        id='context'
-                        onChange={(event) => this.setState({context: parseInt(event.target.context)})} />
+                    Context &nbsp;
+                    <AutoComplete
+                        id="Context"
+                        searchText={this.state.activeContextValue}
+                        dataSource={_.map(this.props.contexts.items, 'name')}
+                        filter={AutoComplete.caseInsensitiveFilter}
+                        openOnFocus={true}
+                        onUpdateInput={(input) => this.setState({activeContextValue: input})}
+                    />
+                    <FlatButton
+                        label="Add"
+                        secondary={true}
+                        onTouchTap={this.handleAddContext}
+                        disabled={this.state.activeContextValue == ''}
+                    />
+                    {this.state.contexts.length > 0 ? <div style={this.styles.wrapper}> {this.state.contexts.map(this.renderContext, this)} </div> : null}
                     <br />
 
                     Keywords
