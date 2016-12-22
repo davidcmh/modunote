@@ -40,6 +40,19 @@ export var receiveNotes = (notes) => {
     }
 };
 
+export var requestTags = () => {
+    return {
+        type: 'REQUEST_TAGS'
+    }
+};
+
+export var receiveTags = (tags) => {
+    return {
+        type: 'RECEIVE_TAGS',
+        tags
+    }
+};
+
 export var fetchContexts = () => {
     return function (dispatch) {
         dispatch(requestContexts());
@@ -90,6 +103,25 @@ export var fetchNotes = (filters={}) => {
                 }, {});
 
                 dispatch(receiveNotes(notes));
+            });
+    };
+};
+
+
+export var fetchTags = () => {
+    return function (dispatch) {
+        dispatch(requestTags());
+        return axios.get('/tags')
+            .then(function (response) {
+                console.log('Response from axios from fetchTags');
+                console.log(response);
+
+                var tags = _.reduce(response.data.tags, function(result, tag) {
+                    result[tag.id] = tag;
+                    return result;
+                }, {});
+
+                dispatch(receiveTags(tags));
             });
     };
 };

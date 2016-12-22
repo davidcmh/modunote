@@ -33,4 +33,5 @@ store.subscribe(() => {
 
 store.dispatch(actions.fetchContexts());
 store.dispatch(actions.fetchTopics());
+store.dispatch(actions.fetchTags());
 //store.dispatch(actions.fetchNotes({contexts: ['Work - JKU']}));

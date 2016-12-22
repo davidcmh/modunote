@@ -184,10 +184,13 @@ class Nav extends React.Component {
                     <br />
 
                     Tags &nbsp;
-                    <TextField
-                        id='tags'
-                        value={this.state.activeTagValue}
-                        onChange={(event) => this.setState({activeTagValue: event.target.value})}
+                    <AutoComplete
+                        id="Tag"
+                        searchText={this.state.activeTagValue}
+                        dataSource={_.map(this.props.tags.items, 'name')}
+                        filter={AutoComplete.caseInsensitiveFilter}
+                        openOnFocus={true}
+                        onUpdateInput={(input) => this.setState({activeTagValue: input})}
                     />
                     <FlatButton
                         label="Add"
@@ -237,7 +240,8 @@ module.exports = connect(
     (state) => {
         return {
             contexts: state.contexts,
-            topics: state.topics
+            topics: state.topics,
+            tags: state.tags
         };
     }
 )(Nav);
