@@ -8,7 +8,7 @@ var store = require('configureStore').configure();
 var {Provider} = require('react-redux');
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
+var MarkdownEditor = require('MarkdownEditor');
 
 // Needed for onTouchTap of material-ui
 injectTapEventPlugin();
@@ -19,6 +19,7 @@ ReactDOM.render(
             <Router history={hashHistory}>
                 <Route path="/" component={Main}>
                     <IndexRoute component={NoteList}/>
+                    <Route path="editor" component={MarkdownEditor}/>
                 </Route>
             </Router>
         </Provider>

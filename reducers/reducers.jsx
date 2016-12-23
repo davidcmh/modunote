@@ -70,7 +70,8 @@ export var notesReducer = (state = {
         {
             id: 2,
             title: 'What is the capital of Australia?',
-            content: "Canberra",
+            content: "Canberra \n" +
+            "![image](images/australia-test.jpg)",
             tags: "generalKnowledge"
         },
         {

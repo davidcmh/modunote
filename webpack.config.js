@@ -12,6 +12,7 @@ module.exports = {
       DeckList: 'app/components/DeckList.jsx',
       NoteList: 'app/components/NoteList.jsx',
       Note: 'app/components/Note.jsx',
+      MarkdownEditor: 'app/components/MarkdownEditor.jsx',
       configureStore: 'store/configureStore.jsx',
       actions: 'actions/actions.jsx',
       reducers: 'reducers/reducers.jsx'
