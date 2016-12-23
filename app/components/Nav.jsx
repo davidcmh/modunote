@@ -20,11 +20,12 @@ class Nav extends React.Component {
     state = {
         showSearchModal: false,
         topics: [],
-        activeTopicValue: '',
+        activeSearchTopicValue: '',
         tags: [],
-        activeTagValue: '',
+        activeSearchTagValue: '',
         contexts: [],
-        activeContextValue: ''
+        activeSearchContextValue: '',
+        currentFilters: {}
     };
 
     styles = {
@@ -34,6 +35,11 @@ class Nav extends React.Component {
         wrapper: {
             display: 'flex',
             flexWrap: 'wrap'
+        },
+        headerInfo: {
+            fontSize:'11px',
+            fontFamily: 'Roboto, sans-serif',
+            display: 'inline'
         }
     };
 
@@ -57,6 +63,7 @@ class Nav extends React.Component {
         this.setState({contexts:[]});
         this.setState({topics:[]});
         this.setState({tags:[]});
+        this.setState({currentFilters:filters});
         console.log('Filters from handleSubmit:', filters);
     };
 
@@ -85,30 +92,30 @@ class Nav extends React.Component {
         const contexts = this.state.contexts;
         contexts.push({
             key: contexts.length,
-            label: this.state.activeContextValue
+            label: this.state.activeSearchContextValue
         });
         this.setState({contexts: contexts});
-        this.setState({activeContextValue: ''});
+        this.setState({activeSearchContextValue: ''});
     };
 
     handleAddTopic = () => {
         const topics = this.state.topics;
         topics.push({
             key: topics.length,
-            label: this.state.activeTopicValue
+            label: this.state.activeSearchTopicValue
         });
         this.setState({topics: topics});
-        this.setState({activeTopicValue: ''});
+        this.setState({activeSearchTopicValue: ''});
     };
 
     handleAddTag = () => {
         const tags = this.state.tags;
         tags.push({
             key: tags.length,
-            label: this.state.activeTagValue
+            label: this.state.activeSearchTagValue
         });
         this.setState({tags: tags});
-        this.setState({activeTagValue: ''});
+        this.setState({activeSearchTagValue: ''});
     };
 
     renderContext = (context) => {
@@ -178,6 +185,14 @@ class Nav extends React.Component {
                 >
                     <SearchIcon />
                 </IconButton>
+                <p style={this.styles.headerInfo}>
+                    {_.isEmpty(this.state.currentFilters) ?
+                        'All notes'
+                        : _.map(
+                        this.state.currentFilters, function(v, k) {
+                            return k + ': ' + _.join(v, ', ')
+                        }).join(' | ')}
+                </p>
                 <Dialog
                     title="Search"
                     actions={actions}
@@ -187,17 +202,17 @@ class Nav extends React.Component {
                     Topics &nbsp;
                     <AutoComplete
                         id="Topics"
-                        searchText={this.state.activeTopicValue}
+                        searchText={this.state.activeSearchTopicValue}
                         dataSource={_.map(this.props.topics.items, 'name')}
                         filter={AutoComplete.caseInsensitiveFilter}
                         openOnFocus={true}
-                        onUpdateInput={(input) => this.setState({activeTopicValue: input})}
+                        onUpdateInput={(input) => this.setState({activeSearchTopicValue: input})}
                     />
                     <FlatButton
                         label="Add"
                         secondary={true}
                         onTouchTap={this.handleAddTopic}
-                        disabled={this.state.activeTopicValue == ''}
+                        disabled={this.state.activeSearchTopicValue == ''}
                     />
                     {this.state.topics.length > 0 ? <div style={this.styles.wrapper}> {this.state.topics.map(this.renderTopic, this)} </div> : null}
                     <br />
@@ -205,17 +220,17 @@ class Nav extends React.Component {
                     Tags &nbsp;
                     <AutoComplete
                         id="Tag"
-                        searchText={this.state.activeTagValue}
+                        searchText={this.state.activeSearchTagValue}
                         dataSource={_.map(this.props.tags.items, 'name')}
                         filter={AutoComplete.caseInsensitiveFilter}
                         openOnFocus={true}
-                        onUpdateInput={(input) => this.setState({activeTagValue: input})}
+                        onUpdateInput={(input) => this.setState({activeSearchTagValue: input})}
                     />
                     <FlatButton
                         label="Add"
                         secondary={true}
                         onTouchTap={this.handleAddTag}
-                        disabled={this.state.activeTagValue == ''}
+                        disabled={this.state.activeSearchTagValue == ''}
                     />
                     {this.state.tags.length > 0 ? <div style={this.styles.wrapper}> {this.state.tags.map(this.renderTag, this)} </div> : null}
                     <br />
@@ -223,17 +238,17 @@ class Nav extends React.Component {
                     Context &nbsp;
                     <AutoComplete
                         id="Context"
-                        searchText={this.state.activeContextValue}
+                        searchText={this.state.activeSearchContextValue}
                         dataSource={_.map(this.props.contexts.items, 'name')}
                         filter={AutoComplete.caseInsensitiveFilter}
                         openOnFocus={true}
-                        onUpdateInput={(input) => this.setState({activeContextValue: input})}
+                        onUpdateInput={(input) => this.setState({activeSearchContextValue: input})}
                     />
                     <FlatButton
                         label="Add"
                         secondary={true}
                         onTouchTap={this.handleAddContext}
-                        disabled={this.state.activeContextValue == ''}
+                        disabled={this.state.activeSearchContextValue == ''}
                     />
                     {this.state.contexts.length > 0 ? <div style={this.styles.wrapper}> {this.state.contexts.map(this.renderContext, this)} </div> : null}
                     <br />
@@ -244,7 +259,7 @@ class Nav extends React.Component {
                     />
                     <br />
 
-                    Date
+                    Date &nbsp;
                     <DatePicker
                         id='Date'
                         style={{display:'inline-block'}}
