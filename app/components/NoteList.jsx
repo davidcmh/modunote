@@ -2,6 +2,7 @@ var React = require('react');
 var Note = require('Note');
 var {connect} = require('react-redux');
 var _ = require('lodash');
+import CircularProgress from 'material-ui/CircularProgress';
 
 var NoteList = React.createClass({
     render: function () {
@@ -13,6 +14,7 @@ var NoteList = React.createClass({
 
         return (
             <div>
+                {this.props.notes.isFetching ? <CircularProgress size={40} thickness={4} /> : null}
                 {noteNodes}
             </div>
         )

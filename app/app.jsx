@@ -32,7 +32,7 @@ store.subscribe(() => {
     console.log('Current state:', store.getState())
 });
 
+store.dispatch(actions.fetchNotes({}));
 store.dispatch(actions.fetchContexts());
 store.dispatch(actions.fetchTopics());
 store.dispatch(actions.fetchTags());
-//store.dispatch(actions.fetchNotes({contexts: ['Work - JKU']}));

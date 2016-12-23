@@ -10,8 +10,13 @@ import AutoComplete from 'material-ui/AutoComplete';
 var _ = require('lodash');
 import DatePicker from 'material-ui/DatePicker';
 import Chip from 'material-ui/Chip';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ActionHome from 'material-ui/svg-icons/action/home';
+var {Link} = require('react-router');
 
 class Nav extends React.Component {
+    static contextTypes = { router: React.PropTypes.object };
+
     state = {
         showSearchModal: false,
         topics: [],
@@ -158,7 +163,21 @@ class Nav extends React.Component {
 
         return (
             <div>
-                <IconButton onTouchTap={this.handleOpen}><SearchIcon /></IconButton>
+                <IconButton
+                    containerElement={<Link to="/" />}
+                >
+                    <ActionHome />
+                </IconButton>
+                <IconButton
+                    containerElement={<Link to="/editor" />}
+                >
+                    <EditorModeEdit />
+                </IconButton>
+                <IconButton
+                    onTouchTap={this.handleOpen}
+                >
+                    <SearchIcon />
+                </IconButton>
                 <Dialog
                     title="Search"
                     actions={actions}

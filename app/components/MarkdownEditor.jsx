@@ -27,6 +27,7 @@ var MarkdownEditor = React.createClass({
                 className="editor"
                 defaultValue={initialSource}
                 onChange={this.onChange}
+                style={{width:'99%', height:'250px'}}
             />
 
                 <Markdown
@@ -38,11 +39,6 @@ var MarkdownEditor = React.createClass({
         );
     }
 });
-
-//ReactDom.render(
-//<App />,
-//    document.getElementById('root')
-//);
 
 function supportsLocalStorage() {
     var mod = 'test';
