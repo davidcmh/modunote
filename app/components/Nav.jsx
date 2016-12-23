@@ -25,7 +25,8 @@ class Nav extends React.Component {
         activeSearchTagValue: '',
         contexts: [],
         activeSearchContextValue: '',
-        currentFilters: {}
+        currentFilters: {},
+        disableSearch: false
     };
 
     styles = {
@@ -39,7 +40,8 @@ class Nav extends React.Component {
         headerInfo: {
             fontSize:'11px',
             fontFamily: 'Roboto, sans-serif',
-            display: 'inline'
+            display: 'inline',
+            verticalAlign: 'super'
         }
     };
 
@@ -168,31 +170,38 @@ class Nav extends React.Component {
             />
         ];
 
+        const { router } = this.context;
+
         return (
             <div>
                 <IconButton
                     containerElement={<Link to="/" />}
+                    onTouchTap={() => this.setState({disableSearch: false})}
                 >
                     <ActionHome />
                 </IconButton>
                 <IconButton
                     containerElement={<Link to="/editor" />}
+                    onTouchTap={() => this.setState({disableSearch: true})}
                 >
                     <EditorModeEdit />
                 </IconButton>
                 <IconButton
                     onTouchTap={this.handleOpen}
+                    disabled={this.state.disableSearch}
                 >
                     <SearchIcon />
                 </IconButton>
-                <p style={this.styles.headerInfo}>
-                    {_.isEmpty(this.state.currentFilters) ?
-                        'All notes'
-                        : _.map(
-                        this.state.currentFilters, function(v, k) {
-                            return k + ': ' + _.join(v, ', ')
-                        }).join(' | ')}
-                </p>
+                {this.state.disableSearch ? null :
+                    <p style={this.styles.headerInfo}>
+                        {_.isEmpty(this.state.currentFilters) ?
+                            'All notes'
+                            : _.map(
+                            this.state.currentFilters, function (v, k) {
+                                return k + ': ' + _.join(v, ', ')
+                            }).join(' | ')}
+                    </p>
+                }
                 <Dialog
                     title="Search"
                     actions={actions}

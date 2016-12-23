@@ -2,6 +2,7 @@ var React = require('react');
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 var Markdown = require('react-markdown');
 import Chip from 'material-ui/Chip';
+var moment = require('moment');
 
 class Note extends React.Component {
     styles = {
@@ -57,8 +58,8 @@ class Note extends React.Component {
                         <p style={{fontSize:'11px'}}>
                             {
                                 [
-                                    'date created: ' + this.props.noteData.date_created,
-                                    'date updated: ' + this.props.noteData.date_updated
+                                    'date created: ' + moment(this.props.noteData.date_created).format('YYYY-MM-DD'),
+                                    'date updated: ' + moment(this.props.noteData.date_updated).format('YYYY-MM-DD')
                                 ].join(' | ')
                             }
                         </p>
