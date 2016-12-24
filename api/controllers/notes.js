@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var db = require('../helpers/db').getPool();
 var Q = require('q');
+var moment = require('moment');
 
 
 exports.getNotes = function (req, res, next) {
@@ -40,5 +41,24 @@ exports.getNotes = function (req, res, next) {
         });
     }).then(function() {
         res.json(result);
+    });
+};
+
+exports.createNote = function (req, res, next) {
+    var noteData = req.swagger.params.noteData.value;
+
+    var query = "INSERT INTO notes(context_id, topic_id, title, content, date_created, date_updated, source) " +
+        "VALUES(${contextId}, ${topicId}, ${title}, ${content}, ${dateCreated}, ${dateUpdated}, ${source}) " +
+        "RETURNING id";
+
+    var result = {};
+    return Q.fcall(function () {
+        return db.any(query, noteData).then(function (data) {
+            result = data[0];
+        });
+    }).then(function() {
+        res.json(result);
+    }).catch(function (err) {
+        console.error('Error creating note', err);
     });
 };

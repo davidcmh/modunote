@@ -73,6 +73,29 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /note:
+    x-swagger-router-controller: notes
+    post:
+      description: create new note, return id of new note
+      operationId: createNote
+      parameters:
+        - name: noteData
+          in: body
+          description: all attributes of a note
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
   /tags:
     x-swagger-router-controller: tags
     get:
