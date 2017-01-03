@@ -9,6 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Chip from 'material-ui/Chip';
 import FlatButton from 'material-ui/FlatButton';
 var actions = require('actions');
+var moment = require('moment');
 
 class MarkdownEditor extends React.Component {
     state = {
@@ -54,14 +55,30 @@ class MarkdownEditor extends React.Component {
         this.setState({tags: tags});
     };
 
+    clearFields = () => {
+      this.setState({
+          context: '',
+          topic: '',
+          activeTagValue: '',
+          tags: [],
+          newNoteData: {},
+          title: '',
+          content: '',
+          date: '',
+          source: ''
+      });
+    };
+
     handleAddNote = () => {
+        // add buffer to manually selected date, so that date will not change after time zone adjustment
+        var date = this.state.date == '' ? moment(Date.now()) : moment(this.state.date).add(16, 'hours');
         var newNoteData = {
             contextId: _.find(this.props.contexts.items, {'name':this.state.context}).id,
             topicId: _.find(this.props.topics.items, {'name':this.state.topic}).id,
             title: this.state.title,
             content: this.state.content,
-            dateCreated: this.state.date,
-            dateUpdated: this.state.date,
+            dateCreated: date,
+            dateUpdated: date,
             source: this.state.source
         };
 
@@ -71,6 +88,7 @@ class MarkdownEditor extends React.Component {
         });
 
         this.props.dispatch(actions.createNote(newNoteData, tagIds));
+        this.clearFields();
     };
 
     renderTag = (tag) => {
@@ -131,6 +149,8 @@ class MarkdownEditor extends React.Component {
                 Date added &nbsp;
                 <DatePicker
                     id='Date'
+                    value={this.state.date}
+                    hintText='Default to current date and time'
                     style={{display:'inline-block'}}
                     onChange={(event, date) => this.setState({date: date})}
                 />
@@ -139,6 +159,7 @@ class MarkdownEditor extends React.Component {
                 Source &nbsp;
                 <TextField
                     id='Source'
+                    value={this.state.source}
                     onChange={(event) => this.setState({source: event.target.value})}
                 />
                 <br />
@@ -146,14 +167,16 @@ class MarkdownEditor extends React.Component {
                 Title &nbsp;
                 <TextField
                     id='Title'
+                    value={this.state.title}
                     onChange={(event) => this.setState({title: event.target.value})}
                 />
                 <br />
                 <br />
 
-                Content
+                Content - Markdown
                 <textarea
                     className="Content"
+                    value={this.state.content}
                     onChange={(event) => this.setState({content: event.target.value})}
                     style={{width:'99%', height:'250px'}}
                 />
@@ -167,7 +190,7 @@ class MarkdownEditor extends React.Component {
                 <br />
                 <br />
 
-                Markdown Preview
+                Content - Preview
                 <Markdown
                     className="preview"
                     source={this.state.content}
