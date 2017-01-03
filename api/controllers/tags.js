@@ -18,3 +18,19 @@ exports.getTags = function (req, res, next) {
         res.json(result);
     });
 };
+
+exports.addTag = function (req, res, next) {
+    var tagData = req.swagger.params.tagData.value;
+
+    var query = "INSERT INTO tags(note_id, tag_id) " +
+        "VALUES(${noteId}, ${tagId}) ";
+
+    var result = {};
+    return Q.fcall(function () {
+        return db.any(query, tagData);
+    }).then(function() {
+        res.json(result);
+    }).catch(function (err) {
+        console.error('Error adding tag', err);
+    });
+};

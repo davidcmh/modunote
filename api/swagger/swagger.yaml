@@ -111,7 +111,30 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"            
+            $ref: "#/definitions/ErrorResponse"
+  /tag:
+    x-swagger-router-controller: tags
+    post:
+      description: add tag using note id and tag lib id
+      operationId: addTag
+      parameters:
+        - name: tagData
+          in: body
+          description: note id and tag id
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world

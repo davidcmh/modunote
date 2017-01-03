@@ -15,8 +15,6 @@ import ActionHome from 'material-ui/svg-icons/action/home';
 var {Link} = require('react-router');
 
 class Nav extends React.Component {
-    static contextTypes = { router: React.PropTypes.object };
-
     state = {
         showSearchModal: false,
         topics: [],
@@ -170,8 +168,6 @@ class Nav extends React.Component {
             />
         ];
 
-        const { router } = this.context;
-
         return (
             <div>
                 <IconButton
@@ -228,7 +224,7 @@ class Nav extends React.Component {
 
                     Tags &nbsp;
                     <AutoComplete
-                        id="Tag"
+                        id="Tags"
                         searchText={this.state.activeSearchTagValue}
                         dataSource={_.map(this.props.tags.items, 'name')}
                         filter={AutoComplete.caseInsensitiveFilter}
@@ -246,7 +242,7 @@ class Nav extends React.Component {
 
                     Context &nbsp;
                     <AutoComplete
-                        id="Context"
+                        id="Contexts"
                         searchText={this.state.activeSearchContextValue}
                         dataSource={_.map(this.props.contexts.items, 'name')}
                         filter={AutoComplete.caseInsensitiveFilter}

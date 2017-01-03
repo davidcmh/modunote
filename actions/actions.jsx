@@ -1,4 +1,5 @@
 export var axios = require('axios');
+var Promise = require("bluebird");
 
 export var requestContexts = () => {
     return {
@@ -50,6 +51,31 @@ export var receiveTags = (tags) => {
     return {
         type: 'RECEIVE_TAGS',
         tags
+    }
+};
+
+export var creatingNote = () => {
+    return {
+        type: 'CREATING_NOTE'
+    }
+};
+
+export var createdNote = (newNoteId) => {
+    return {
+        type: 'CREATED_NOTE',
+        newNoteId
+    }
+};
+
+export var addingTags = () => {
+    return {
+        type: 'ADDING_TAGS'
+    }
+};
+
+export var addedTags = (newNoteId) => {
+    return {
+        type: 'ADDED_TAGS'
     }
 };
 
@@ -122,6 +148,34 @@ export var fetchTags = () => {
                 }, {});
 
                 dispatch(receiveTags(tags));
+            });
+    };
+};
+
+
+export var createNote = (noteData, tagIds) => {
+    return function (dispatch) {
+        dispatch(creatingNote());
+        return axios.post('/note', noteData)
+            .then(function (response) {
+                console.log('Response from axios from createNote');
+                console.log(response);
+                var newNoteId = response.data.id;
+                dispatch(createdNote(newNoteId));
+                return newNoteId;
+            })
+            .then(function(newNoteId) {
+                dispatch(addingTags());
+                return Promise.each(tagIds, function(tagId) {
+                    return axios.post('/tag', {noteId: newNoteId, tagId: tagId})
+                        .then(function (response) {
+                            console.log('Response from axios from addTag');
+                            console.log(response);
+                        })
+                });
+            })
+            .then(function() {
+                dispatch(addedTags());
             });
     };
 };
