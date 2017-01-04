@@ -21,7 +21,10 @@ class MarkdownEditor extends React.Component {
         title: '',
         content: '',
         date: '',
-        source: ''
+        source: '',
+        newContext: '',
+        newTopic: '',
+        newTag: ''
     };
 
     styles = {
@@ -91,6 +94,33 @@ class MarkdownEditor extends React.Component {
         this.clearFields();
     };
 
+    handleCreateContext = () => {
+        var contextData = {
+            name: this.state.newContext
+        };
+
+        this.props.dispatch(actions.createContext(contextData));
+        this.setState({newContext:''});
+    };
+
+    handleCreateTopic = () => {
+        var topicData = {
+            name: this.state.newTopic
+        };
+
+        this.props.dispatch(actions.createTopic(topicData));
+        this.setState({newTopic:''});
+    };
+
+    handleCreateTag = () => {
+        var tagData = {
+            name: this.state.newTag
+        };
+
+        this.props.dispatch(actions.createTag(tagData));
+        this.setState({newTag:''});
+    };
+
     renderTag = (tag) => {
         return (
             <Chip
@@ -106,6 +136,53 @@ class MarkdownEditor extends React.Component {
     render() {
         return (
             <div style={this.styles.overallDiv}>
+                <AutoComplete
+                    id="CreateContext"
+                    searchText={this.state.newContext}
+                    dataSource={_.map(this.props.contexts.items, 'name')}
+                    filter={AutoComplete.caseInsensitiveFilter}
+                    openOnFocus={true}
+                    onUpdateInput={(input) => this.setState({newContext: input})}
+                />
+                <FlatButton
+                    label="Create context"
+                    onTouchTap={this.handleCreateContext}
+                />
+                <br />
+                <br />
+
+                <AutoComplete
+                    id="CreateTopic"
+                    searchText={this.state.newTopic}
+                    dataSource={_.map(this.props.topics.items, 'name')}
+                    filter={AutoComplete.caseInsensitiveFilter}
+                    openOnFocus={true}
+                    onUpdateInput={(input) => this.setState({newTopic: input})}
+                />
+                <FlatButton
+                    label="Create topic"
+                    onTouchTap={this.handleCreateTopic}
+                />
+                <br />
+                <br />
+
+                <AutoComplete
+                    id="CreateTag"
+                    searchText={this.state.newTag}
+                    dataSource={_.map(this.props.tags.items, 'name')}
+                    filter={AutoComplete.caseInsensitiveFilter}
+                    openOnFocus={true}
+                    onUpdateInput={(input) => this.setState({newTag: input})}
+                />
+                <FlatButton
+                    label="Create tag"
+                    onTouchTap={this.handleCreateTag}
+                />
+                <br />
+                <br />
+
+                <hr/>
+
                 Context &nbsp;
                 <AutoComplete
                     id="Context"

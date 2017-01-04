@@ -18,3 +18,19 @@ exports.getTopics = function (req, res, next) {
         res.json(result);
     });
 };
+
+exports.createTopic = function (req, res, next) {
+    var topicData = req.swagger.params.topicData.value;
+
+    var query = "INSERT INTO topics(name) " +
+        "VALUES(${name}) ";
+
+    var result = {};
+    return Q.fcall(function () {
+        return db.any(query, topicData);
+    }).then(function() {
+        res.json(result);
+    }).catch(function (err) {
+        console.error('Error adding topic', err);
+    });
+};

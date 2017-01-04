@@ -73,9 +73,45 @@ export var addingTags = () => {
     }
 };
 
-export var addedTags = (newNoteId) => {
+export var addedTags = () => {
     return {
         type: 'ADDED_TAGS'
+    }
+};
+
+export var creatingContext = () => {
+    return {
+        type: 'CREATING_CONTEXT'
+    }
+};
+
+export var createdContext = () => {
+    return {
+        type: 'CREATED_CONTEXT'
+    }
+};
+
+export var creatingTopic = () => {
+    return {
+        type: 'CREATING_TOPIC'
+    }
+};
+
+export var createdTopic = () => {
+    return {
+        type: 'CREATED_TOPIC'
+    }
+};
+
+export var creatingTag = () => {
+    return {
+        type: 'CREATING_TAG'
+    }
+};
+
+export var createdTag = () => {
+    return {
+        type: 'CREATED_TAG'
     }
 };
 
@@ -137,7 +173,7 @@ export var fetchNotes = (filters={}) => {
 export var fetchTags = () => {
     return function (dispatch) {
         dispatch(requestTags());
-        return axios.get('/tags')
+        return axios.get('/taglib')
             .then(function (response) {
                 console.log('Response from axios from fetchTags');
                 console.log(response);
@@ -176,6 +212,42 @@ export var createNote = (noteData, tagIds) => {
             })
             .then(function() {
                 dispatch(addedTags());
+            });
+    };
+};
+
+export var createContext = (contextData) => {
+    return function (dispatch) {
+        dispatch(creatingContext());
+        return axios.post('/context', contextData)
+            .then(function (response) {
+                console.log('Response from axios from createContext');
+                console.log(response);
+                dispatch(createdContext());
+            });
+    };
+};
+
+export var createTopic = (topicData) => {
+    return function (dispatch) {
+        dispatch(creatingTopic());
+        return axios.post('/topic', topicData)
+            .then(function (response) {
+                console.log('Response from axios from createTopic');
+                console.log(response);
+                dispatch(createdTopic());
+            });
+    };
+};
+
+export var createTag = (tagData) => {
+    return function (dispatch) {
+        dispatch(creatingTag());
+        return axios.post('/taglib', tagData)
+            .then(function (response) {
+                console.log('Response from axios from createTag');
+                console.log(response);
+                dispatch(createdTag());
             });
     };
 };

@@ -34,3 +34,19 @@ exports.addTag = function (req, res, next) {
         console.error('Error adding tag', err);
     });
 };
+
+exports.createTag = function (req, res, next) {
+    var tagData = req.swagger.params.tagData.value;
+
+    var query = "INSERT INTO tag_library(name) " +
+        "VALUES(${name}) ";
+
+    var result = {};
+    return Q.fcall(function () {
+        return db.any(query, tagData);
+    }).then(function() {
+        res.json(result);
+    }).catch(function (err) {
+        console.error('Error adding tag', err);
+    });
+};

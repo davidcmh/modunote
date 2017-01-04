@@ -34,11 +34,57 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /context:
+    x-swagger-router-controller: contexts            
+    post:
+      description: create context
+      operationId: createContext
+      parameters:
+        - name: contextData
+          in: body
+          description: context name
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /topics:
     x-swagger-router-controller: topics
     get:
       description: return topics available
       operationId: getTopics
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"    
+  /topic:
+    x-swagger-router-controller: topics           
+    post:
+      description: create topic
+      operationId: createTopic
+      parameters:
+        - name: topicData
+          in: body
+          description: topic name
+          required: true
+          schema:
+            type: object
       responses:
         "200":
           description: Success
@@ -95,23 +141,7 @@ paths:
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"            
-  /tags:
-    x-swagger-router-controller: tags
-    get:
-      description: return tags available from tag library
-      operationId: getTags
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            type: object
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/ErrorResponse"      
   /tag:
     x-swagger-router-controller: tags
     post:
@@ -135,6 +165,43 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /taglib:
+    x-swagger-router-controller: tags
+    get:
+      description: return tags available from tag library
+      operationId: getTags
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: create new tag in library
+      operationId: createTag
+      parameters:
+        - name: tagData
+          in: body
+          description: tag name
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            type: object
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
   /hello:
     # binds a127 app logic to a route
     x-swagger-router-controller: hello_world

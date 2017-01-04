@@ -1,5 +1,6 @@
 export var contextsReducer = (state = {
     isFetching: false,
+    isCreating: false,
     items: []
 }, action) => {
     switch (action.type) {
@@ -12,6 +13,14 @@ export var contextsReducer = (state = {
                 isFetching: false,
                 items: action.contexts
             });
+        case 'CREATING_CONTEXT':
+            return _.assign({}, state, {
+                isCreating: true
+            });
+        case 'CREATED_CONTEXT':
+            return _.assign({}, state, {
+                isCreating: false
+            });
         default:
             return state;
     }
@@ -20,6 +29,7 @@ export var contextsReducer = (state = {
 
 export var topicsReducer = (state = {
     isFetching: false,
+    isCreating: false,
     items: []
 }, action) => {
     switch (action.type) {
@@ -32,6 +42,14 @@ export var topicsReducer = (state = {
                 isFetching: false,
                 items: action.topics
             });
+        case 'CREATING_TOPIC':
+            return _.assign({}, state, {
+                isCreating: true
+            });
+        case 'CREATED_TOPIC':
+            return _.assign({}, state, {
+                isCreating: false
+            });
         default:
             return state;
     }
@@ -41,6 +59,7 @@ export var topicsReducer = (state = {
 export var tagsReducer = (state = {
     isFetching: false,
     isAdding: false,
+    isCreating: false,
     items: []
 }, action) => {
     switch (action.type) {
@@ -60,6 +79,14 @@ export var tagsReducer = (state = {
         case 'ADDED_TAGS':
             return _.assign({}, state, {
                 isAdding: false
+            });
+        case 'CREATING_TAG':
+            return _.assign({}, state, {
+                isCreating: true
+            });
+        case 'CREATED_TAG':
+            return _.assign({}, state, {
+                isCreating: false
             });
         default:
             return state;
@@ -88,18 +115,18 @@ export var notesReducer = (state = {
 };
 
 export var noteReducer = (state = {
-    isProcessing: false,
+    isCreating: false,
     newNoteId: null
 }, action) => {
     switch (action.type) {
         case 'CREATING_NOTE':
             return _.assign({}, state, {
-                isProcessing: true,
+                isCreating: true,
                 newNoteId: null
             });
         case 'CREATED_NOTE':
             return _.assign({}, state, {
-                isProcessing: false,
+                isCreating: false,
                 newNoteId: action.newNoteId
             });
         default:
