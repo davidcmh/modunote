@@ -10,6 +10,7 @@ import Chip from 'material-ui/Chip';
 import FlatButton from 'material-ui/FlatButton';
 var actions = require('actions');
 var moment = require('moment');
+import { Grid, Row, Col } from 'react-flexbox-grid/lib/index'
 
 class MarkdownEditor extends React.Component {
     state = {
@@ -35,9 +36,28 @@ class MarkdownEditor extends React.Component {
             display: 'flex',
             flexWrap: 'wrap'
         },
-        overallDiv: {
+        defaultFont: {
             fontFamily: 'Roboto, sans-serif',
             fontSize: '12px'
+        },
+        outerBox: {
+            padding:'5px'
+        },
+        innerBox: {
+            background:'white',
+            padding:'10px'
+        },
+        header: {
+            fontSize:'16px',
+            display:'block',
+            paddingTop:'10px',
+            paddingBottom:'10px'
+        },
+        headerInline: {
+            fontSize:'16px',
+            display:'inline-block',
+            paddingTop:'10px',
+            paddingBottom:'10px'
         }
     };
 
@@ -135,145 +155,189 @@ class MarkdownEditor extends React.Component {
 
     render() {
         return (
-            <div style={this.styles.overallDiv}>
-                <AutoComplete
-                    id="CreateContext"
-                    searchText={this.state.newContext}
-                    dataSource={_.map(this.props.contexts.items, 'name')}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    openOnFocus={true}
-                    onUpdateInput={(input) => this.setState({newContext: input})}
-                />
-                <FlatButton
-                    label="Create context"
-                    onTouchTap={this.handleCreateContext}
-                />
-                <br />
-                <br />
+            <div style={this.styles.defaultFont}>
+                <Grid>
+                    <Row>
+                        <Col style={this.styles.outerBox} xs={4}>
+                            <div style={this.styles.innerBox}>
+                                <span style={this.styles.header}>CONTEXT</span>
+                                <AutoComplete
+                                    id="CreateContext"
+                                    searchText={this.state.newContext}
+                                    dataSource={_.map(this.props.contexts.items, 'name')}
+                                    filter={AutoComplete.caseInsensitiveFilter}
+                                    openOnFocus={true}
+                                    onUpdateInput={(input) => this.setState({newContext: input})}
+                                />
+                                <FlatButton
+                                    label="Create"
+                                    onTouchTap={this.handleCreateContext}
+                                    disabled={this.state.newContext == ''}
+                                />
+                            </div>
+                        </Col>
+                        <Col style={this.styles.outerBox} xs={4}>
+                            <div style={this.styles.innerBox}>
+                                <span style={this.styles.header}>TOPIC</span>
+                                <AutoComplete
+                                    id="CreateTopic"
+                                    searchText={this.state.newTopic}
+                                    dataSource={_.map(this.props.topics.items, 'name')}
+                                    filter={AutoComplete.caseInsensitiveFilter}
+                                    openOnFocus={true}
+                                    onUpdateInput={(input) => this.setState({newTopic: input})}
+                                />
+                                <FlatButton
+                                    label="Create"
+                                    onTouchTap={this.handleCreateTopic}
+                                    disabled={this.state.newTopic == ''}
+                                />
+                            </div>
+                        </Col>
+                        <Col style={this.styles.outerBox} xs={4}>
+                            <div style={this.styles.innerBox}>
+                                <span style={this.styles.header}>TAG</span>
+                                <AutoComplete
+                                    id="CreateTag"
+                                    searchText={this.state.newTag}
+                                    dataSource={_.map(this.props.tags.items, 'name')}
+                                    filter={AutoComplete.caseInsensitiveFilter}
+                                    openOnFocus={true}
+                                    onUpdateInput={(input) => this.setState({newTag: input})}
+                                />
+                                <FlatButton
+                                    label="Create"
+                                    onTouchTap={this.handleCreateTag}
+                                    disabled={this.state.newTag == ''}
+                                />
+                            </div>
+                        </Col>
 
-                <AutoComplete
-                    id="CreateTopic"
-                    searchText={this.state.newTopic}
-                    dataSource={_.map(this.props.topics.items, 'name')}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    openOnFocus={true}
-                    onUpdateInput={(input) => this.setState({newTopic: input})}
-                />
-                <FlatButton
-                    label="Create topic"
-                    onTouchTap={this.handleCreateTopic}
-                />
-                <br />
-                <br />
+                    </Row>
 
-                <AutoComplete
-                    id="CreateTag"
-                    searchText={this.state.newTag}
-                    dataSource={_.map(this.props.tags.items, 'name')}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    openOnFocus={true}
-                    onUpdateInput={(input) => this.setState({newTag: input})}
-                />
-                <FlatButton
-                    label="Create tag"
-                    onTouchTap={this.handleCreateTag}
-                />
-                <br />
-                <br />
+                    <Row>
+                        <Col style={this.styles.outerBox} xs={12}>
+                            <div style={this.styles.innerBox}>
+                                <Row>
+                                    <Col xs={10}>
+                                        <span style={this.styles.headerInline}>NOTE</span>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <FlatButton
+                                            label="Create note"
+                                            secondary={true}
+                                            onTouchTap={this.handleAddNote}
+                                        />
+                                    </Col>
+                                </Row>
 
-                <hr/>
+                                <Row>
+                                    <Col xs={4}>
+                                        Context &nbsp;
+                                        <AutoComplete
+                                            id="Context"
+                                            textFieldStyle={this.styles.defaultFont}
+                                            menuStyle={this.styles.defaultFont}
+                                            listStyle={this.styles.defaultFont}
 
-                Context &nbsp;
-                <AutoComplete
-                    id="Context"
-                    searchText={this.state.context}
-                    dataSource={_.map(this.props.contexts.items, 'name')}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    openOnFocus={true}
-                    onUpdateInput={(input) => this.setState({context: input})}
-                />
-                <br />
+                                            searchText={this.state.context}
+                                            dataSource={_.map(this.props.contexts.items, 'name')}
+                                            filter={AutoComplete.caseInsensitiveFilter}
+                                            openOnFocus={true}
+                                            onUpdateInput={(input) => this.setState({context: input})}
+                                        />
+                                    </Col>
+                                    <Col xs={4}>
+                                        Topic &nbsp;
+                                        <AutoComplete
+                                            id="Topic"
+                                            textFieldStyle={this.styles.defaultFont}
+                                            searchText={this.state.topic}
+                                            dataSource={_.map(this.props.topics.items, 'name')}
+                                            filter={AutoComplete.caseInsensitiveFilter}
+                                            openOnFocus={true}
+                                            onUpdateInput={(input) => this.setState({topic: input})}
+                                        />
+                                    </Col>
+                                    <Col xs={4}>
+                                        Date added &nbsp;
+                                        <DatePicker
+                                            id='Date'
+                                            value={this.state.date}
+                                            hintText='Default to current date and time'
+                                            textFieldStyle={this.styles.defaultFont}
+                                            style={{display:'inline-block'}}
+                                            onChange={(event, date) => this.setState({date: date})}
+                                        />
+                                    </Col>
+                                </Row>
 
-                Topic &nbsp;
-                <AutoComplete
-                    id="Topic"
-                    searchText={this.state.topic}
-                    dataSource={_.map(this.props.topics.items, 'name')}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    openOnFocus={true}
-                    onUpdateInput={(input) => this.setState({topic: input})}
-                />
-                <br />
+                                Title &nbsp;
+                                <TextField
+                                    id='Title'
+                                    value={this.state.title}
+                                    textFieldStyle={this.styles.defaultFont}
+                                    style={{width:'96%'}}
+                                    onChange={(event) => this.setState({title: event.target.value})}
+                                />
+                                <br />
 
-                Tags &nbsp;
-                <AutoComplete
-                    id="Tags"
-                    searchText={this.state.activeTagValue}
-                    dataSource={_.map(this.props.tags.items, 'name')}
-                    filter={AutoComplete.caseInsensitiveFilter}
-                    openOnFocus={true}
-                    onUpdateInput={(input) => this.setState({activeTagValue: input})}
-                />
-                <FlatButton
-                    label="Add"
-                    secondary={true}
-                    onTouchTap={this.handleAddTag}
-                    disabled={this.state.activeTagValue == ''}
-                />
-                {this.state.tags.length > 0 ? <div style={this.styles.wrapper}> {this.state.tags.map(this.renderTag, this)} </div> : null}
-                <br />
+                                <Row>
+                                    <Col xs={6}>
+                                        Tags &nbsp;
+                                        <AutoComplete
+                                            id="Tags"
+                                            textFieldStyle={this.styles.defaultFont}
+                                            searchText={this.state.activeTagValue}
+                                            dataSource={_.map(this.props.tags.items, 'name')}
+                                            filter={AutoComplete.caseInsensitiveFilter}
+                                            openOnFocus={true}
+                                            onUpdateInput={(input) => this.setState({activeTagValue: input})}
+                                        />
+                                        <FlatButton
+                                            label="Add"
+                                            secondary={true}
+                                            onTouchTap={this.handleAddTag}
+                                            disabled={this.state.activeTagValue == ''}
+                                        />
+                                        {this.state.tags.length > 0 ? <div style={this.styles.wrapper}> {this.state.tags.map(this.renderTag, this)} </div> : null}
+                                    </Col>
+                                    <Col xs={6}>
+                                        Source &nbsp;
+                                        <TextField
+                                            id='Source'
+                                            value={this.state.source}
+                                            textFieldStyle={this.styles.defaultFont}
+                                            onChange={(event) => this.setState({source: event.target.value})}
+                                        />
+                                        <br />
+                                    </Col>
+                                </Row>
 
-                Date added &nbsp;
-                <DatePicker
-                    id='Date'
-                    value={this.state.date}
-                    hintText='Default to current date and time'
-                    style={{display:'inline-block'}}
-                    onChange={(event, date) => this.setState({date: date})}
-                />
-                <br />
+                                <br />
+                                Content - Markdown
+                                <textarea
+                                    className="Content"
+                                    value={this.state.content}
+                                    onChange={(event) => this.setState({content: event.target.value})}
+                                    style={{width:'99%', height:'250px', marginTop:'5px', borderColor:'rgba(0, 0, 0, 0.298039)', padding:'10px'}}
+                                />
+                                <br />
+                                <br />
 
-                Source &nbsp;
-                <TextField
-                    id='Source'
-                    value={this.state.source}
-                    onChange={(event) => this.setState({source: event.target.value})}
-                />
-                <br />
+                                Content - Preview
+                                <div style={{borderStyle:'solid', borderWidth:'1px', borderColor:'rgba(0, 0, 0, 0.298039)', padding:'10px'}}>
+                                    <Markdown
+                                        className="preview"
+                                        source={this.state.content}
+                                        escapeHtml
+                                    />
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
 
-                Title &nbsp;
-                <TextField
-                    id='Title'
-                    value={this.state.title}
-                    onChange={(event) => this.setState({title: event.target.value})}
-                />
-                <br />
-                <br />
-
-                Content - Markdown
-                <textarea
-                    className="Content"
-                    value={this.state.content}
-                    onChange={(event) => this.setState({content: event.target.value})}
-                    style={{width:'99%', height:'250px'}}
-                />
-                <br />
-                <br />
-                <FlatButton
-                    label="Add note"
-                    secondary={true}
-                    onTouchTap={this.handleAddNote}
-                />
-                <br />
-                <br />
-
-                Content - Preview
-                <Markdown
-                    className="preview"
-                    source={this.state.content}
-                    escapeHtml
-                />
-
+                </Grid>
             </div>
         );
     }
